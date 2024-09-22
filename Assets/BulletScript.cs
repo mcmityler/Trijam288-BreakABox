@@ -6,11 +6,13 @@ using UnityEngine;
 public class BulletScript : MonoBehaviour
 {
     [SerializeField] private float _bulletMoveSpeed = 1f; //speed that the bullet travels
+    private GameObject _player;
 
 
     private void Start()
     {
         this.gameObject.SetActive(false); //deactivate bullets as they spawn with the bullet item pool
+        _player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void OnEnable()
@@ -24,5 +26,15 @@ public class BulletScript : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("hit something");
+        if (other.CompareTag("Wall"))
+        {
+            this.gameObject.SetActive(false);
+            _player.GetComponent<PlayerScript>().BulletDied(this.gameObject);
+        }
     }
 }
