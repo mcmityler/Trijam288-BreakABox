@@ -7,7 +7,8 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     private Vector3 _moveDir = new Vector3(0, 0, 0);
-    [SerializeField] float _moveSpeed = 2f;
+    [SerializeField] float _playerMoveSpeed = 2f;
+    [SerializeField] private float _bulletMoveSpeed = 10f;
 
     private int _numberOfBullets = 50;
 
@@ -65,6 +66,7 @@ public class PlayerScript : MonoBehaviour
     {
         _inactiveBullets[0].transform.position = _bulletShootPoint.transform.position;
         _inactiveBullets[0].transform.rotation = this.gameObject.transform.rotation;
+        _inactiveBullets[0].GetComponent<BulletScript>().SetBulletSpeed(_bulletMoveSpeed);
         _inactiveBullets[0].SetActive(true);
         _activeBullets.Add(_inactiveBullets[0]);
         _inactiveBullets.RemoveAt(0);
@@ -77,6 +79,6 @@ public class PlayerScript : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        this.gameObject.transform.position += (_moveDir * (_moveSpeed * Time.deltaTime));
+        this.gameObject.transform.position += (_moveDir * (_playerMoveSpeed * Time.deltaTime));
     }
 }
